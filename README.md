@@ -30,7 +30,5 @@ Data Storage
 Currently, expenses are stored in a Python dictionary while the program is running. Expenses are not permanently saved after the program exits.
 
 Future Improvements
-
-- Save expenses permanently using JSON
 - Calculate total expenses
 - Add expense categories and dates
