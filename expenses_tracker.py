@@ -1,12 +1,26 @@
 # Expenses tracker
-
-
+import json
 
 database = {}
-# ask again function
+
+# read file
+def read_file_func():
+    global database
+    try:
+        with open("Expenses.json", "r") as f:
+            database = json.load(f)
+    except FileNotFoundError:
+      database = {}
+            print("No data found.")
+            
+# update file
+def update_file_func():
+    with open("Expenses.json", "w") as fw:
+        json.dump(database, fw)
 
 
-                
+
+# ask again function                
 def ask_again_func():
             while True:
                 ask_again = input("Want to continue (yes/no): ").lower().strip()
@@ -14,8 +28,6 @@ def ask_again_func():
                     return ask_again
                 else:
                     print("Yes and no option allowed only.")
-
-
 
 
 
@@ -29,6 +41,7 @@ def add_func():
             try:
                 expenses_amount = float(input("Amount: "))
                 database[expenses_type] = {"Amount": expenses_amount}
+                update_file_func()
             except ValueError:
                 print("Amount should be number.")
                 continue
@@ -52,6 +65,7 @@ def update_func():
             print("No expenses added yet")
             break
         else:
+            print("Available Expenses:")
             view = view_all_func()
             print()
             select_expenses = input("Select Expenses Type: ").title().strip()
@@ -72,6 +86,7 @@ def update_func():
                     del database[select_expenses]
             
                 database[update_expenses] = {"Amount": update_expenses_amount}
+                update_file_func()
                 print(f"{select_expenses} successfully updated to {update_expenses}, amount to {update_expenses_amount}")
 
                 answer = ask_again_func()
@@ -97,6 +112,7 @@ def delete_func():
                     if delete_expenses in database:
                         del database[delete_expenses]
                         print(f" {delete_expenses} successfully deleted")
+                        update_file_func()
                     else:
                         print()
                         print(f"{delete_expenses} not found in database.")
@@ -121,7 +137,7 @@ def view_all_func():
         print("No expenses added yet.")
 
             
-                                    
+read_file_func() # load data before running programs                                    
 while True:   
     print()
     # our services option
